@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hand Tracking</title>
+</head>
+<body>
+  <h1>Hand Tracking with WebSocket</h1>
+
+  <script>
+    // Create a WebSocket connection
+    const socket = new WebSocket("ws://localhost:8767");
+
+    socket.onopen = () => {
+      console.log("WebSocket connection established");
+    };
+
+    socket.onerror = (error) => {
+      console.log("WebSocket Error:", error);
+    };
+
+    socket.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      console.log("Received data:", data);  // Log the received coordinates
+
+      if (data.left_index) {
+        console.log("Left Index Finger - X:", data.left_index.x, "Y:", data.left_index.y);
+      }
+
+      if (data.right_index) {
+        console.log("Right Index Finger - X:", data.right_index.x, "Y:", data.right_index.y);
+      }
+    };
+
+    socket.onclose = () => {
+      console.log("WebSocket connection closed");
+    };
+  </script>
+</body>
+</html>
